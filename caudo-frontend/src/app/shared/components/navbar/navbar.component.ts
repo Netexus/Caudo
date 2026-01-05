@@ -12,7 +12,8 @@ import { AuthService } from '../../../core/services/auth.service';
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <!-- Logo -->
-          <a routerLink="/" class="flex items-center">
+          <a [routerLink]="authService.isAuthenticated() ? (authService.isManager() ? '/manager-dashboard' : '/coder-dashboard') : '/'" 
+             class="flex items-center hover:opacity-80 transition-opacity">
             <img 
               src="images/caudo-logo.png" 
               alt="Caudo Logo" 

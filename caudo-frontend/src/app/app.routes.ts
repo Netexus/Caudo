@@ -31,6 +31,18 @@ export const routes: Routes = [
         data: { roles: ['admin', 'manager'] }
     },
     {
+        path: 'terms',
+        loadComponent: () => import('./pages/legal/terms/terms.component').then(m => m.TermsComponent)
+    },
+    {
+        path: 'privacy',
+        loadComponent: () => import('./pages/legal/privacy/privacy.component').then(m => m.PrivacyComponent)
+    },
+    {
+        path: 'contact',
+        loadComponent: () => import('./pages/legal/contact/contact.component').then(m => m.ContactComponent)
+    },
+    {
         path: '**',
         redirectTo: ''
     }

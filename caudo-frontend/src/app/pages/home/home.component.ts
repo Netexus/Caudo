@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -158,9 +158,9 @@ import { AuthService } from '../../core/services/auth.service';
               <span class="text-gray-400">© 2026 Caudo. Todos los derechos reservados.</span>
             </div>
             <div class="flex gap-6">
-              <a href="#" class="text-gray-400 hover:text-caudo-accent transition-colors">Términos</a>
-              <a href="#" class="text-gray-400 hover:text-caudo-accent transition-colors">Privacidad</a>
-              <a href="#" class="text-gray-400 hover:text-caudo-accent transition-colors">Contacto</a>
+              <a routerLink="/terms" class="text-gray-400 hover:text-caudo-accent transition-colors">Términos</a>
+              <a routerLink="/privacy" class="text-gray-400 hover:text-caudo-accent transition-colors">Privacidad</a>
+              <a routerLink="/contact" class="text-gray-400 hover:text-caudo-accent transition-colors">Contacto</a>
             </div>
           </div>
         </div>
