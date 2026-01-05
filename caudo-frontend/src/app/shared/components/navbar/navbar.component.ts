@@ -37,10 +37,6 @@ import { AuthService } from '../../../core/services/auth.service';
                 <a routerLink="/manager-dashboard" class="text-gray-300 hover:text-caudo-accent transition-colors hidden sm:block">
                   Dashboard
                 </a>
-              } @else if (authService.isCoder()) {
-                <a routerLink="/coder-dashboard" class="text-gray-300 hover:text-caudo-accent transition-colors hidden sm:block">
-                  Vacantes
-                </a>
               }
               
               <!-- Logout Button -->
