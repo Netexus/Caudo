@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Application, ApplicationStats, CreateApplicationRequest } from '../models';
+import { environment } from '../../../environments/environment';
 
 interface ApiResponse<T> {
     success: boolean;
@@ -13,7 +14,7 @@ interface ApiResponse<T> {
     providedIn: 'root'
 })
 export class ApplicationService {
-    private readonly API_URL = 'http://localhost:3000/api';
+    private readonly API_URL = environment.apiUrl;
 
     constructor(private http: HttpClient) { }
 

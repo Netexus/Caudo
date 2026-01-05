@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { User, AuthResponse, LoginRequest, RegisterRequest } from '../models';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private readonly API_URL = 'http://localhost:3000/api';
+    private readonly API_URL = environment.apiUrl;
     private readonly TOKEN_KEY = 'caudo_token';
     private readonly USER_KEY = 'caudo_user';
 
