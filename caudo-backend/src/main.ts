@@ -41,8 +41,14 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   // Listen on 0.0.0.0 for Railway/Docker compatibility
   await app.listen(port, '0.0.0.0');
+
+  const url = process.env.RAILWAY_PUBLIC_DOMAIN
+    ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+    : `http://localhost:${port}`;
+
   console.log(`🚀 Caudo API running on port ${port}`);
-  console.log(`📚 Swagger docs available at /api/docs`);
+  console.log(`🌐 URL: ${url}`);
+  console.log(`📚 Swagger: ${url}/api/docs`);
 }
 
 bootstrap().catch((err) => {
