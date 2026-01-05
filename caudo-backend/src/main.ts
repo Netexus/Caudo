@@ -39,12 +39,11 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   const port = process.env.PORT || 3000;
-  // Listen on 0.0.0.0 for Railway/Docker compatibility
+  // Listen on 0.0.0.0 for Render/Docker compatibility
   await app.listen(port, '0.0.0.0');
 
-  const url = process.env.RAILWAY_PUBLIC_DOMAIN
-    ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
-    : `http://localhost:${port}`;
+  const url = process.env.RENDER_EXTERNAL_URL
+    || `http://localhost:${port}`;
 
   console.log(`🚀 Caudo API running on port ${port}`);
   console.log(`🌐 URL: ${url}`);
