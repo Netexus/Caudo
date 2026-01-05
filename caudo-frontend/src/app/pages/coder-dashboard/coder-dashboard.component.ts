@@ -1,5 +1,6 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { VacancyService } from '../../core/services/vacancy.service';
 import { ApplicationService } from '../../core/services/application.service';
 import { Vacancy, ApplicationStats, Application } from '../../core/models';
@@ -8,7 +9,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 @Component({
     selector: 'app-coder-dashboard',
     standalone: true,
-    imports: [NavbarComponent, DatePipe],
+    imports: [NavbarComponent, DatePipe, FormsModule],
     template: `
     <app-navbar></app-navbar>
     
@@ -93,18 +94,46 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
         }
         
         <!-- Vacancies Grid -->
+        <div class="mb-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-900">Available Vacancies</h2>
+              <p class="text-gray-600">Explore and apply to the best tech jobs</p>
+            </div>
+            
+            <!-- Filters -->
+            <div class="flex flex-col sm:flex-row gap-3">
+              <input 
+                type="text" 
+                [(ngModel)]="technologyFilter"
+                placeholder="Search technologies..."
+                class="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm w-full sm:w-64">
+                
+              <select 
+                [(ngModel)]="seniorityFilter"
+                class="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm">
+                <option value="">All Seniorities</option>
+                <option value="Junior">Junior</option>
+                <option value="Mid">Mid</option>
+                <option value="Senior">Senior</option>
+                <option value="Lead">Lead</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         @if (loading()) {
           <div class="text-center py-12">
             <div class="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto"></div>
             <p class="text-gray-600 mt-4">Loading vacancies...</p>
           </div>
-        } @else if (vacancies().length === 0) {
+        } @else if (filteredVacancies().length === 0) {
           <div class="text-center py-12 bg-white rounded-2xl shadow">
-            <p class="text-gray-500 text-lg">No vacancies available at the moment</p>
+            <p class="text-gray-500 text-lg">No vacancies found matching your filters</p>
           </div>
         } @else {
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @for (vacancy of vacancies(); track vacancy.id) {
+            @for (vacancy of filteredVacancies(); track vacancy.id) {
               <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
                 <div class="p-6">
                   <div class="flex items-start justify-between mb-4">
@@ -224,6 +253,23 @@ export class CoderDashboardComponent implements OnInit {
     // Modal state
     showWithdrawModal = signal(false);
     selectedApplicationId = signal<string | null>(null);
+
+    // Filter state
+    technologyFilter = signal('');
+    seniorityFilter = signal('');
+
+    // Computed filtered vacancies
+    filteredVacancies = computed(() => {
+        const vacancies = this.vacancies();
+        const tech = this.technologyFilter().toLowerCase();
+        const seniority = this.seniorityFilter();
+
+        return vacancies.filter(v => {
+            const matchesTech = !tech || v.technologies.toLowerCase().includes(tech) || v.title.toLowerCase().includes(tech);
+            const matchesSeniority = !seniority || v.seniority === seniority;
+            return matchesTech && matchesSeniority;
+        });
+    });
 
     constructor(
         private vacancyService: VacancyService,
