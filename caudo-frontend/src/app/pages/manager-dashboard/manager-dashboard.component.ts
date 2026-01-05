@@ -5,10 +5,10 @@ import { Vacancy, VacancyMetrics, CreateVacancyRequest } from '../../core/models
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 
 @Component({
-    selector: 'app-manager-dashboard',
-    standalone: true,
-    imports: [NavbarComponent, FormsModule],
-    template: `
+  selector: 'app-manager-dashboard',
+  standalone: true,
+  imports: [NavbarComponent, FormsModule],
+  template: `
     <app-navbar></app-navbar>
     
     <div class="min-h-screen bg-gray-50 py-8">
@@ -109,10 +109,10 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
                 </div>
                 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Salary Range</label>
-                  <input type="text" [(ngModel)]="form.salaryRange" name="salaryRange" required
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Salary (USD)</label>
+                  <input type="number" [(ngModel)]="form.salaryRange" name="salaryRange" required min="0"
                          class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                         placeholder="$80,000 - $120,000">
+                         placeholder="120000">
                 </div>
                 
                 <div>
@@ -154,16 +154,33 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
             } @else {
               <div class="space-y-4 max-h-[600px] overflow-y-auto">
                 @for (vacancy of vacancies(); track vacancy.id) {
-                  <div class="border border-gray-200 rounded-xl p-4 hover:border-indigo-200 transition-colors">
+                  <div class="border border-gray-200 rounded-xl p-4 hover:border-indigo-200 transition-colors group relative">
                     <div class="flex items-start justify-between mb-2">
                       <div>
                         <h3 class="font-bold text-gray-900">{{ vacancy.title }}</h3>
                         <p class="text-sm text-indigo-600">{{ vacancy.company }}</p>
                       </div>
-                      <span class="px-2 py-1 rounded-full text-xs font-medium"
-                            [class]="vacancy.status ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'">
-                        {{ vacancy.status ? 'Active' : 'Closed' }}
-                      </span>
+                      <div class="flex items-center gap-2">
+                        <span class="px-2 py-1 rounded-full text-xs font-medium"
+                              [class]="vacancy.status ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'">
+                          {{ vacancy.status ? 'Active' : 'Closed' }}
+                        </span>
+                        <button (click)="initiateDelete(vacancy.id)" 
+                                [disabled]="deleting() === vacancy.id"
+                                class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
+                                title="Delete Vacancy">
+                          @if (deleting() === vacancy.id) {
+                            <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                          } @else {
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                          }
+                        </button>
+                      </div>
                     </div>
                     <div class="flex items-center justify-between text-sm text-gray-600">
                       <span>{{ vacancy.seniority }} • {{ vacancy.modality }}</span>
@@ -175,90 +192,158 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
             }
           </div>
         </div>
+        
+        <!-- Delete Confirmation Modal -->
+        @if (showDeleteModal()) {
+          <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fade-in">
+            <div class="bg-white rounded-2xl p-8 max-w-sm w-full mx-4 shadow-2xl">
+              <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                  <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Delete Vacancy?</h3>
+                <p class="text-sm text-gray-500 mb-6">
+                  Are you sure you want to delete this vacancy? This action cannot be undone and will remove all associated applications.
+                </p>
+                <div class="flex gap-3 justify-center">
+                  <button 
+                    (click)="cancelDelete()"
+                    class="btn-outline-light !text-gray-700 !border-gray-300 hover:!bg-gray-50 flex-1">
+                    Cancel
+                  </button>
+                  <button 
+                    (click)="confirmDelete()"
+                    class="btn bg-red-600 hover:bg-red-700 text-white shadow-md flex-1">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </div>
   `
 })
 export class ManagerDashboardComponent implements OnInit {
-    vacancies = signal<Vacancy[]>([]);
-    metrics = signal<VacancyMetrics | null>(null);
-    loading = signal(true);
-    creating = signal(false);
-    message = signal<string | null>(null);
-    messageType = signal<'success' | 'error'>('success');
+  vacancies = signal<Vacancy[]>([]);
+  metrics = signal<VacancyMetrics | null>(null);
+  loading = signal(true);
+  creating = signal(false);
+  deleting = signal<string | null>(null);
+  message = signal<string | null>(null);
+  messageType = signal<'success' | 'error'>('success');
 
-    form: CreateVacancyRequest = {
-        title: '',
-        description: '',
-        technologies: '',
-        seniority: 'Mid',
-        softSkills: '',
-        location: '',
-        modality: 'remote',
-        salaryRange: '',
-        company: '',
-        maxApplicants: 10
-    };
+  // Modal state
+  showDeleteModal = signal(false);
+  selectedVacancyId = signal<string | null>(null);
 
-    constructor(private vacancyService: VacancyService) { }
+  form: CreateVacancyRequest = {
+    title: '',
+    description: '',
+    technologies: '',
+    seniority: 'Mid',
+    softSkills: '',
+    location: '',
+    modality: 'remote',
+    salaryRange: '', // Bind to string but input type=number will work for form submission
+    company: '',
+    maxApplicants: 10
+  };
 
-    ngOnInit(): void {
+  constructor(private vacancyService: VacancyService) { }
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.loading.set(true);
+
+    this.vacancyService.getAll().subscribe({
+      next: (response) => {
+        this.vacancies.set(response.data);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+
+    this.vacancyService.getMetrics().subscribe({
+      next: (response) => this.metrics.set(response.data),
+      error: () => { }
+    });
+  }
+
+  createVacancy(): void {
+    this.creating.set(true);
+    this.message.set(null);
+
+    this.vacancyService.create(this.form).subscribe({
+      next: (response) => {
+        this.creating.set(false);
+        this.showMessage('Vacancy created successfully!', 'success');
+        this.resetForm();
         this.loadData();
-    }
+      },
+      error: (err) => {
+        this.creating.set(false);
+        this.showMessage(err.error?.message || 'Failed to create vacancy', 'error');
+      }
+    });
+  }
 
-    loadData(): void {
-        this.loading.set(true);
+  initiateDelete(vacancyId: string): void {
+    this.selectedVacancyId.set(vacancyId);
+    this.showDeleteModal.set(true);
+  }
 
-        this.vacancyService.getAll().subscribe({
-            next: (response) => {
-                this.vacancies.set(response.data);
-                this.loading.set(false);
-            },
-            error: () => this.loading.set(false)
-        });
+  cancelDelete(): void {
+    this.showDeleteModal.set(false);
+    this.selectedVacancyId.set(null);
+  }
 
-        this.vacancyService.getMetrics().subscribe({
-            next: (response) => this.metrics.set(response.data),
-            error: () => { }
-        });
-    }
+  confirmDelete(): void {
+    const id = this.selectedVacancyId();
+    if (!id) return;
 
-    createVacancy(): void {
-        this.creating.set(true);
-        this.message.set(null);
+    this.deleting.set(id);
+    this.showDeleteModal.set(false);
+    this.message.set(null);
 
-        this.vacancyService.create(this.form).subscribe({
-            next: (response) => {
-                this.creating.set(false);
-                this.showMessage('Vacancy created successfully!', 'success');
-                this.resetForm();
-                this.loadData();
-            },
-            error: (err) => {
-                this.creating.set(false);
-                this.showMessage(err.error?.message || 'Failed to create vacancy', 'error');
-            }
-        });
-    }
+    this.vacancyService.delete(id).subscribe({
+      next: () => {
+        this.deleting.set(null);
+        this.selectedVacancyId.set(null);
+        this.showMessage('Vacancy deleted successfully', 'success');
+        this.loadData();
+      },
+      error: (err) => {
+        this.deleting.set(null);
+        this.showMessage(err.error?.message || 'Failed to delete vacancy', 'error');
+      }
+    });
+  }
 
-    private resetForm(): void {
-        this.form = {
-            title: '',
-            description: '',
-            technologies: '',
-            seniority: 'Mid',
-            softSkills: '',
-            location: '',
-            modality: 'remote',
-            salaryRange: '',
-            company: '',
-            maxApplicants: 10
-        };
-    }
+  private resetForm(): void {
+    this.form = {
+      title: '',
+      description: '',
+      technologies: '',
+      seniority: 'Mid',
+      softSkills: '',
+      location: '',
+      modality: 'remote',
+      salaryRange: '',
+      company: '',
+      maxApplicants: 10
+    };
+  }
 
-    private showMessage(msg: string, type: 'success' | 'error'): void {
-        this.message.set(msg);
-        this.messageType.set(type);
-        setTimeout(() => this.message.set(null), 5000);
-    }
+  private showMessage(msg: string, type: 'success' | 'error'): void {
+    this.message.set(msg);
+    this.messageType.set(type);
+    setTimeout(() => this.message.set(null), 5000);
+  }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -39,18 +40,27 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
             
             <!-- CTA Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <a routerLink="/register" class="btn-primary btn-lg">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
-                Buscar Vacantes
-              </a>
-              <a routerLink="/login" class="btn-outline-light btn-lg">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-                </svg>
-                Iniciar Sesión
-              </a>
+              @if (authService.isAuthenticated()) {
+                <button (click)="navigateToDashboard()" class="btn-primary btn-lg">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                  </svg>
+                  Ir a mi Dashboard
+                </button>
+              } @else {
+                <a routerLink="/register" class="btn-primary btn-lg">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                  </svg>
+                  Buscar Vacantes
+                </a>
+                <a routerLink="/login" class="btn-outline-light btn-lg">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                  </svg>
+                  Iniciar Sesión
+                </a>
+              }
             </div>
           </div>
         </div>
@@ -127,9 +137,15 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
           <p class="text-xl text-gray-300 mb-8">
             Únete a la comunidad de profesionales tech que ya confían en Caudo.
           </p>
-          <a routerLink="/register" class="btn-primary btn-lg">
-            Crear Cuenta Gratis
-          </a>
+          @if (authService.isAuthenticated()) {
+            <button (click)="navigateToDashboard()" class="btn-primary btn-lg">
+              Ir a mi Dashboard
+            </button>
+          } @else {
+            <a routerLink="/register" class="btn-primary btn-lg">
+              Crear Cuenta Gratis
+            </a>
+          }
         </div>
       </section>
 
@@ -152,4 +168,10 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
     </div>
   `
 })
-export class HomeComponent { }
+export class HomeComponent {
+  constructor(public authService: AuthService) { }
+
+  navigateToDashboard(): void {
+    this.authService.navigateByRole();
+  }
+}
