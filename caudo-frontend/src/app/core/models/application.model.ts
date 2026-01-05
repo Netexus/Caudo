@@ -1,4 +1,5 @@
 import { Vacancy } from './vacancy.model';
+import { User } from './user.model';
 
 export interface Application {
     id: string;
@@ -6,6 +7,7 @@ export interface Application {
     vacancyId: string;
     appliedAt: Date;
     vacancy?: Vacancy;
+    user?: User;
 }
 
 export interface ApplicationStats {

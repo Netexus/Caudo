@@ -1,13 +1,15 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { VacancyService } from '../../core/services/vacancy.service';
-import { Vacancy, VacancyMetrics, CreateVacancyRequest } from '../../core/models';
+import { Vacancy, VacancyMetrics, CreateVacancyRequest, Application } from '../../core/models';
+import { ApplicationService } from '../../core/services/application.service';
+import { DatePipe } from '@angular/common';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-manager-dashboard',
   standalone: true,
-  imports: [NavbarComponent, FormsModule],
+  imports: [NavbarComponent, FormsModule, DatePipe],
   template: `
     <app-navbar></app-navbar>
     
@@ -170,6 +172,16 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
                               [class]="vacancy.status ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'">
                           {{ vacancy.status ? 'Active' : 'Closed' }}
                         </span>
+                        
+                        <!-- View Applicants Button -->
+                        <button (click)="viewApplicants(vacancy)" 
+                                class="text-indigo-600 hover:text-indigo-800 transition-colors p-1 rounded-full hover:bg-indigo-50"
+                                title="View Applicants">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                          </svg>
+                        </button>
+                        
                         <button (click)="initiateDelete(vacancy.id)" 
                                 [disabled]="deleting() === vacancy.id"
                                 class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
@@ -228,6 +240,70 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
             </div>
           </div>
         }
+
+        <!-- Applicants Modal -->
+        @if (showApplicantsModal()) {
+          <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fade-in">
+            <div class="bg-white rounded-2xl max-w-2xl w-full mx-4 shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+              <!-- Modal Header -->
+              <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <div>
+                  <h3 class="text-lg font-bold text-gray-900">Applicants</h3>
+                  <p class="text-sm text-gray-500">For vacancy: {{ selectedVacancyTitle() }}</p>
+                </div>
+                <button (click)="closeApplicantsModal()" class="text-gray-400 hover:text-gray-600">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Modal Body -->
+              <div class="p-6 overflow-y-auto">
+                @if (loadingApplicants()) {
+                  <div class="flex justify-center py-8">
+                    <div class="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full"></div>
+                  </div>
+                } @else if (currentVacancyApplicants().length === 0) {
+                  <div class="text-center py-8 text-gray-500">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                    </div>
+                    <p>No applicants yet for this vacancy.</p>
+                  </div>
+                } @else {
+                  <div class="space-y-4">
+                    @for (app of currentVacancyApplicants(); track app.id) {
+                      <div class="flex items-center p-4 bg-gray-50 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-100">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                          {{ app.user?.name?.charAt(0) || 'U' }}
+                        </div>
+                        <div class="ml-4 flex-1">
+                          <h4 class="text-sm font-semibold text-gray-900">{{ app.user?.name || 'Unknown User' }}</h4>
+                          <p class="text-sm text-gray-500">{{ app.user?.email }}</p>
+                        </div>
+                        <div class="text-right text-xs text-gray-500">
+                          <p>Applied on</p>
+                          <p class="font-medium">{{ app.appliedAt | date:'mediumDate' }}</p>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Modal Footer -->
+              <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
+                <button (click)="closeApplicantsModal()" class="btn-primary px-6">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
       </div>
     </div>
   `
@@ -245,6 +321,12 @@ export class ManagerDashboardComponent implements OnInit {
   showDeleteModal = signal(false);
   selectedVacancyId = signal<string | null>(null);
 
+  // Applicants Modal state
+  showApplicantsModal = signal(false);
+  loadingApplicants = signal(false);
+  currentVacancyApplicants = signal<Application[]>([]);
+  selectedVacancyTitle = signal<string>('');
+
   form: CreateVacancyRequest = {
     title: '',
     description: '',
@@ -258,7 +340,10 @@ export class ManagerDashboardComponent implements OnInit {
     maxApplicants: 10
   };
 
-  constructor(private vacancyService: VacancyService) { }
+  constructor(
+    private vacancyService: VacancyService,
+    private applicationService: ApplicationService
+  ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -324,6 +409,9 @@ export class ManagerDashboardComponent implements OnInit {
         this.deleting.set(null);
         this.selectedVacancyId.set(null);
         this.showMessage('Vacancy deleted successfully', 'success');
+        this.deleting.set(null);
+        this.selectedVacancyId.set(null);
+        this.showMessage('Vacancy deleted successfully', 'success');
         this.loadData();
       },
       error: (err) => {
@@ -331,6 +419,30 @@ export class ManagerDashboardComponent implements OnInit {
         this.showMessage(err.error?.message || 'Failed to delete vacancy', 'error');
       }
     });
+  }
+
+  viewApplicants(vacancy: Vacancy): void {
+    this.selectedVacancyTitle.set(vacancy.title);
+    this.showApplicantsModal.set(true);
+    this.loadingApplicants.set(true);
+    this.currentVacancyApplicants.set([]);
+
+    this.applicationService.getVacancyApplications(vacancy.id).subscribe({
+      next: (response) => {
+        this.currentVacancyApplicants.set(response.data);
+        this.loadingApplicants.set(false);
+      },
+      error: (err) => {
+        this.loadingApplicants.set(false);
+        this.showMessage('Failed to load applicants', 'error');
+      }
+    });
+  }
+
+  closeApplicantsModal(): void {
+    this.showApplicantsModal.set(false);
+    this.currentVacancyApplicants.set([]);
+    this.selectedVacancyTitle.set('');
   }
 
   private resetForm(): void {
