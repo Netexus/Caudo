@@ -103,9 +103,14 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
                 
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                  <input type="text" [(ngModel)]="form.location" name="location" required
-                         class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                         placeholder="New York, USA">
+                  <select [(ngModel)]="form.location" name="location" required
+                          class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <option value="" disabled selected>Select a city</option>
+                    <option value="Medellín">Medellín</option>
+                    <option value="Barranquilla">Barranquilla</option>
+                    <option value="Bogotá">Bogotá</option>
+                    <option value="Cartagena">Cartagena</option>
+                  </select>
                 </div>
                 
                 <div>
@@ -280,7 +285,9 @@ export class ManagerDashboardComponent implements OnInit {
     this.creating.set(true);
     this.message.set(null);
 
-    this.vacancyService.create(this.form).subscribe({
+    const payload = { ...this.form, salaryRange: this.form.salaryRange.toString() };
+
+    this.vacancyService.create(payload).subscribe({
       next: (response) => {
         this.creating.set(false);
         this.showMessage('Vacancy created successfully!', 'success');
