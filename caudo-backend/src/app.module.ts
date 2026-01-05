@@ -6,6 +6,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { VacanciesModule } from './modules/vacancies/vacancies.module';
 import { ApplicationsModule } from './modules/applications/applications.module';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { HealthController } from './health.controller';
 import { User, Vacancy, Application } from './entities';
 
 @Module({
@@ -33,6 +34,7 @@ import { User, Vacancy, Application } from './entities';
     VacanciesModule,
     ApplicationsModule,
   ],
+  controllers: [HealthController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
