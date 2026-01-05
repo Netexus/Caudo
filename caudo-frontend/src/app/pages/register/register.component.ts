@@ -14,7 +14,7 @@ import { AuthService } from '../../core/services/auth.service';
         <div class="text-center mb-8">
           <a routerLink="/">
             <img 
-              src="assets/images/caudo-logo.png" 
+              src="images/caudo-logo.png" 
               alt="Caudo Logo" 
               class="h-16 mx-auto mb-6"
             >

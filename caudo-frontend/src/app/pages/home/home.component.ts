@@ -4,24 +4,24 @@ import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 
 @Component({
-    selector: 'app-home',
-    standalone: true,
-    imports: [CommonModule, RouterLink, NavbarComponent],
-    template: `
+  selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule, RouterLink, NavbarComponent],
+  template: `
     <div class="min-h-screen bg-caudo-bg">
       <app-navbar></app-navbar>
       
       <!-- Hero Section -->
-      <section class="relative bg-gradient-caudo bg-hero-pattern overflow-hidden">
+      <section class="relative bg-gradient-caudo overflow-hidden">
         <!-- Decorative Circles -->
-        <div class="absolute top-0 right-0 w-96 h-96 bg-caudo-accent/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-64 h-64 bg-caudo-accent/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
         
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div class="text-center animate-fade-in">
             <!-- Logo -->
             <img 
-              src="assets/images/caudo-logo.png" 
+              src="images/caudo-logo.png" 
               alt="Caudo Logo" 
               class="h-20 mx-auto mb-8 drop-shadow-lg"
             >
@@ -77,7 +77,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
           
           <div class="grid md:grid-cols-3 gap-8">
             <!-- Feature 1: Coders -->
-            <div class="card p-8 text-center animate-fade-in animate-delay-100">
+            <div class="card p-8 text-center">
               <div class="w-16 h-16 bg-caudo-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <svg class="w-8 h-8 text-caudo-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
@@ -90,7 +90,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
             </div>
             
             <!-- Feature 2: Managers -->
-            <div class="card p-8 text-center animate-fade-in animate-delay-200">
+            <div class="card p-8 text-center">
               <div class="w-16 h-16 bg-caudo-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <svg class="w-8 h-8 text-caudo-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
@@ -103,7 +103,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
             </div>
             
             <!-- Feature 3: Tech -->
-            <div class="card p-8 text-center animate-fade-in animate-delay-300">
+            <div class="card p-8 text-center">
               <div class="w-16 h-16 bg-caudo-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <svg class="w-8 h-8 text-caudo-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -138,7 +138,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex flex-col md:flex-row justify-between items-center">
             <div class="flex items-center mb-4 md:mb-0">
-              <img src="assets/images/caudo-logo.png" alt="Caudo" class="h-8 mr-3">
+              <img src="images/caudo-logo.png" alt="Caudo" class="h-8 mr-3">
               <span class="text-gray-400">© 2026 Caudo. Todos los derechos reservados.</span>
             </div>
             <div class="flex gap-6">
