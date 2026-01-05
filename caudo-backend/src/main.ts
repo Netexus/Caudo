@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
+    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:4200'],
     credentials: true,
   });
 
@@ -39,9 +39,14 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   const port = process.env.PORT || 3000;
-  await app.listen(port);
-  console.log(`🚀 Caudo API running on http://localhost:${port}`);
-  console.log(`📚 Swagger docs available at http://localhost:${port}/api/docs`);
+  // Listen on 0.0.0.0 for Railway/Docker compatibility
+  await app.listen(port, '0.0.0.0');
+  console.log(`🚀 Caudo API running on port ${port}`);
+  console.log(`📚 Swagger docs available at /api/docs`);
 }
 
-bootstrap();
+bootstrap().catch((err) => {
+  console.error('Failed to start application:', err);
+  process.exit(1);
+});
+
