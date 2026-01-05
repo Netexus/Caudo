@@ -25,10 +25,10 @@ An employability vacancy platform where **Coders** can apply to job opportunitie
 
 | Layer | Technology |
 |-------|------------|
-| **Backend** | NestJS, TypeORM, PostgreSQL (Supabase), JWT, Swagger |
-| **Frontend** | Angular 19, TailwindCSS, Standalone Components |
-| **Database** | PostgreSQL via Supabase |
-| **Deployment** | Docker, Docker Compose, Nginx |
+| **Backend** | NestJS, TypeORM, Swagger, JWT Auth, API Key Security |
+| **Frontend** | Angular 19, TailwindCSS, Standalone Components, Signals |
+| **Database** | PostgreSQL via **Supabase** |
+| **Deployment** | **Render** (Backend), **Vercel** (Frontend), Docker (Optionally for containerization) |
 
 ## 📁 Project Structure
 
