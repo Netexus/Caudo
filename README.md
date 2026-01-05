@@ -5,15 +5,20 @@ An employability vacancy platform where **Coders** can apply to job opportunitie
 ## 🚀 Features
 
 ### For Coders
-- Browse available job vacancies
+- Browse available job vacancies with **filtering** by Technology and Seniority
 - View detailed job information (technologies, salary, location, etc.)
 - Apply to vacancies (max 3 active applications)
-- Track application status
+- **Withdraw** applications if plans change
+- Track application status and see visual indicators for applied positions
+- View active applications in a dedicated dashboard section
 
 ### For Managers
 - Create and manage job vacancies
 - Include technologies, soft skills, and requirements
+- **Validation** for numeric salary input
+- **Restricted Location** selection (Medellín, Barranquilla, Bogotá, Cartagena)
 - Set maximum applicants per vacancy
+- **Delete** vacancies with confirmation modal
 - View application metrics and analytics
 
 ## 🏗️ Tech Stack
@@ -114,6 +119,7 @@ Access the app at `http://localhost`
 
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
+| **NOTE** | All endpoints (except public ones) require `x-api-key` header | Default: `caudo-api-key-2024` | - |
 | POST | `/api/auth/register` | Register new user | No |
 | POST | `/api/auth/login` | Login | No |
 | GET | `/api/auth/profile` | Get current user | Yes |
