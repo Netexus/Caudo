@@ -1,5 +1,5 @@
 import { Component, signal, OnInit } from '@angular/core';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -81,36 +81,7 @@ import { AuthService } from '../../core/services/auth.service';
                 required>
             </div>
             
-            <div>
-              <label for="role" class="input-label">Quiero</label>
-              <div class="grid grid-cols-2 gap-3 mt-2">
-                <button 
-                  type="button"
-                  (click)="role = 'coder'"
-                  [class]="role === 'coder' 
-                    ? 'p-4 rounded-lg border-2 border-caudo-accent bg-caudo-accent/10 text-caudo-primary transition-all' 
-                    : 'p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 text-gray-600 transition-all'">
-                  <svg class="w-8 h-8 mx-auto mb-2" [class.text-caudo-accent]="role === 'coder'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-                  </svg>
-                  <span class="block font-semibold">Aplicar a trabajos</span>
-                  <span class="text-xs text-gray-500">Coder</span>
-                </button>
-                
-                <button 
-                  type="button"
-                  (click)="role = 'manager'"
-                  [class]="role === 'manager' 
-                    ? 'p-4 rounded-lg border-2 border-caudo-accent bg-caudo-accent/10 text-caudo-primary transition-all' 
-                    : 'p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 text-gray-600 transition-all'">
-                  <svg class="w-8 h-8 mx-auto mb-2" [class.text-caudo-accent]="role === 'manager'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                  </svg>
-                  <span class="block font-semibold">Publicar vacantes</span>
-                  <span class="text-xs text-gray-500">Manager</span>
-                </button>
-              </div>
-            </div>
+
             
             <button 
               type="submit"
@@ -153,23 +124,17 @@ export class RegisterComponent implements OnInit {
   name = '';
   email = '';
   password = '';
-  role: 'coder' | 'manager' = 'coder';
   loading = signal(false);
   error = signal<string | null>(null);
   success = signal<string | null>(null);
 
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    // Check for role query param
-    const roleParam = this.route.snapshot.queryParamMap.get('role');
-    if (roleParam === 'manager') {
-      this.role = 'manager';
-    }
+    // No role selection needed
   }
 
   onSubmit(): void {
@@ -181,7 +146,7 @@ export class RegisterComponent implements OnInit {
       name: this.name,
       email: this.email,
       password: this.password,
-      role: this.role
+      role: 'coder' // Default role
     }).subscribe({
       next: (response) => {
         this.loading.set(false);

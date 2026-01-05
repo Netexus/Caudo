@@ -30,6 +30,7 @@ async function bootstrap() {
     .setDescription('Caudo - Employability Vacancy Platform API')
     .setVersion('1.0')
     .addBearerAuth()
+    .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'x-api-key')
     .addTag('Auth', 'Authentication endpoints')
     .addTag('Vacancies', 'Vacancy management endpoints')
     .addTag('Applications', 'Application management endpoints')

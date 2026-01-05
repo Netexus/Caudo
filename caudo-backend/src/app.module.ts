@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module';
 import { VacanciesModule } from './modules/vacancies/vacancies.module';
 import { ApplicationsModule } from './modules/applications/applications.module';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { ApiKeyGuard } from './common/guards/api-key.guard';
 import { HealthController } from './health.controller';
 import { User, Vacancy, Application } from './entities';
 
@@ -37,9 +38,14 @@ import { User, Vacancy, Application } from './entities';
   controllers: [HealthController],
   providers: [
     {
+      provide: APP_GUARD,
+      useClass: ApiKeyGuard,
+    },
+    {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
     },
   ],
 })
 export class AppModule { }
+

@@ -34,22 +34,22 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
             
             <!-- Subtitle -->
             <p class="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-10">
-              La plataforma exclusiva para Coders y Gestores que buscan su próxima gran oportunidad.
+              La plataforma exclusiva para Coders que buscan su próxima gran oportunidad.
             </p>
             
             <!-- CTA Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <a routerLink="/coder-dashboard" class="btn-primary btn-lg">
+              <a routerLink="/register" class="btn-primary btn-lg">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
                 Buscar Vacantes
               </a>
-              <a routerLink="/register" [queryParams]="{role: 'manager'}" class="btn-outline-light btn-lg">
+              <a routerLink="/login" class="btn-outline-light btn-lg">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                 </svg>
-                Soy Empresa/Gestor
+                Iniciar Sesión
               </a>
             </div>
           </div>
@@ -89,16 +89,16 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
               </p>
             </div>
             
-            <!-- Feature 2: Managers -->
+            <!-- Feature 2: Companies (Verified) -->
             <div class="card p-8 text-center">
               <div class="w-16 h-16 bg-caudo-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <svg class="w-8 h-8 text-caudo-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-caudo-primary mb-3">Gestión Eficiente</h3>
+              <h3 class="text-xl font-bold text-caudo-primary mb-3">Empresas Verificadas</h3>
               <p class="text-gray-600">
-                Publica vacantes con cupos definidos y encuentra el talento exacto con filtros avanzados.
+                Accede a vacantes de empresas tecnológicas líderes validadas por nuestro equipo.
               </p>
             </div>
             
