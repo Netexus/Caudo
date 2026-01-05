@@ -1,45 +1,64 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
-    selector: 'app-navbar',
-    standalone: true,
-    imports: [RouterLink],
-    template: `
-    <nav class="bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  template: `
+    <nav class="bg-caudo-primary shadow-lg sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-          <div class="flex items-center">
-            <a routerLink="/" class="flex items-center space-x-2">
-              <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                <span class="text-2xl font-bold text-indigo-600">C</span>
-              </div>
-              <span class="text-2xl font-bold text-white tracking-tight">Caudo</span>
-            </a>
-          </div>
-          
-          <div class="flex items-center space-x-4">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <a routerLink="/" class="flex items-center">
+            <img 
+              src="assets/images/caudo-logo.png" 
+              alt="Caudo Logo" 
+              class="h-10 w-auto"
+            >
+          </a>
+
+          <!-- Navigation Links -->
+          <div class="flex items-center gap-4">
             @if (authService.isAuthenticated()) {
-              <span class="text-white/80 text-sm">
-                Welcome, <span class="font-semibold text-white">{{ authService.currentUser()?.name }}</span>
-              </span>
-              <span class="px-3 py-1 rounded-full text-xs font-medium bg-white/20 text-white capitalize">
-                {{ authService.currentUser()?.role }}
-              </span>
+              <!-- User Info -->
+              <div class="hidden sm:flex items-center gap-3">
+                <span class="text-gray-300">{{ authService.currentUser()?.name }}</span>
+                <span class="badge-accent">
+                  {{ authService.currentUser()?.role | titlecase }}
+                </span>
+              </div>
+              
+              <!-- Dashboard Link -->
+              @if (authService.isManager()) {
+                <a routerLink="/manager-dashboard" class="text-gray-300 hover:text-caudo-accent transition-colors hidden sm:block">
+                  Dashboard
+                </a>
+              } @else if (authService.isCoder()) {
+                <a routerLink="/coder-dashboard" class="text-gray-300 hover:text-caudo-accent transition-colors hidden sm:block">
+                  Vacantes
+                </a>
+              }
+              
+              <!-- Logout Button -->
               <button 
                 (click)="authService.logout()" 
-                class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-all duration-200 text-sm font-medium">
-                Logout
+                class="btn-sm bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white border border-red-500/50 rounded-lg transition-all"
+              >
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+                Salir
               </button>
             } @else {
-              <a routerLink="/login" 
-                class="px-4 py-2 rounded-lg text-white hover:bg-white/10 transition-all duration-200 text-sm font-medium">
-                Login
+              <!-- Login/Register Links -->
+              <a routerLink="/login" class="text-gray-300 hover:text-white transition-colors">
+                Iniciar Sesión
               </a>
-              <a routerLink="/register" 
-                class="px-4 py-2 rounded-lg bg-white text-indigo-600 hover:bg-gray-100 transition-all duration-200 text-sm font-medium">
-                Register
+              <a routerLink="/register" class="btn-primary btn-sm">
+                Registrarse
               </a>
             }
           </div>
@@ -49,5 +68,5 @@ import { AuthService } from '../../../core/services/auth.service';
   `
 })
 export class NavbarComponent {
-    constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 }
