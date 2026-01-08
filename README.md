@@ -147,10 +147,6 @@ Access the app at `http://localhost`
 # Backend tests
 cd caudo-backend
 npm run test
-
-# Frontend tests
-cd caudo-frontend
-npm run test
 ```
 
 ## 📄 License
