@@ -19,8 +19,8 @@ import { AuthService } from '../../core/services/auth.service';
               class="h-16 mx-auto mb-6"
             >
           </a>
-          <h2 class="text-3xl font-bold text-caudo-primary">Crea tu cuenta</h2>
-          <p class="text-gray-600 mt-2">Únete a la plataforma Caudo</p>
+          <h2 class="text-3xl font-bold text-caudo-primary">Create your account</h2>
+          <p class="text-gray-600 mt-2">Join the Caudo platform</p>
         </div>
         
         <!-- Form Card -->
@@ -45,38 +45,38 @@ import { AuthService } from '../../core/services/auth.service';
           
           <form (ngSubmit)="onSubmit()" class="space-y-5">
             <div>
-              <label for="name" class="input-label">Nombre completo</label>
+              <label for="name" class="input-label">Full Name</label>
               <input 
                 type="text" 
                 id="name"
                 [(ngModel)]="name"
                 name="name"
                 class="input"
-                placeholder="Juan Pérez"
+                placeholder="John Doe"
                 required>
             </div>
             
             <div>
-              <label for="email" class="input-label">Correo electrónico</label>
+              <label for="email" class="input-label">Email Address</label>
               <input 
                 type="email" 
                 id="email"
                 [(ngModel)]="email"
                 name="email"
                 class="input"
-                placeholder="tu@email.com"
+                placeholder="you@email.com"
                 required>
             </div>
             
             <div>
-              <label for="password" class="input-label">Contraseña</label>
+              <label for="password" class="input-label">Password</label>
               <input 
                 type="password" 
                 id="password"
                 [(ngModel)]="password"
                 name="password"
                 class="input"
-                placeholder="Mínimo 6 caracteres"
+                placeholder="Minimum 6 characters"
                 minlength="6"
                 required>
             </div>
@@ -92,17 +92,17 @@ import { AuthService } from '../../core/services/auth.service';
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                 </svg>
-                Creando cuenta...
+                Creating account...
               } @else {
-                Crear Cuenta
+                Create Account
               }
             </button>
           </form>
           
           <div class="mt-6 text-center">
             <p class="text-gray-600">
-              ¿Ya tienes cuenta? 
-              <a routerLink="/login" class="text-caudo-accent font-semibold hover:underline">Inicia sesión</a>
+              Already have an account? 
+              <a routerLink="/login" class="text-caudo-accent font-semibold hover:underline">Log in</a>
             </p>
           </div>
         </div>
@@ -113,7 +113,7 @@ import { AuthService } from '../../core/services/auth.service';
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
-            Volver al inicio
+            Back to home
           </a>
         </div>
       </div>
@@ -150,12 +150,12 @@ export class RegisterComponent implements OnInit {
     }).subscribe({
       next: (response) => {
         this.loading.set(false);
-        this.success.set('¡Cuenta creada! Redirigiendo al login...');
+        this.success.set('Account created! Redirecting to login...');
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
       error: (err) => {
         this.loading.set(false);
-        this.error.set(err.error?.message || 'Error al crear cuenta. Intenta de nuevo.');
+        this.error.set(err.error?.message || 'Error creating account. Please try again.');
       }
     });
   }

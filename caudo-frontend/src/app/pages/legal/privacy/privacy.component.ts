@@ -2,29 +2,29 @@ import { Component } from '@angular/core';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 
 @Component({
-    selector: 'app-privacy',
-    standalone: true,
-    imports: [NavbarComponent],
-    template: `
+  selector: 'app-privacy',
+  standalone: true,
+  imports: [NavbarComponent],
+  template: `
     <app-navbar></app-navbar>
     <div class="min-h-screen bg-gray-50 py-12">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-2xl shadow-lg p-8">
-          <h1 class="text-3xl font-bold text-gray-900 mb-6">Política de Privacidad</h1>
+          <h1 class="text-3xl font-bold text-gray-900 mb-6">Privacy Policy</h1>
           <div class="prose max-w-none text-gray-600 space-y-4">
-            <p>En Caudo, valoramos y respetamos tu privacidad. Esta política describe cómo recopilamos y utilizamos tu información personal.</p>
+            <p>At Caudo, we value and respect your privacy. This policy describes how we collect and use your personal information.</p>
             
-            <h3 class="text-lg font-semibold text-gray-800">1. Recopilación de Información</h3>
-            <p>Recopilamos información que nos proporcionas al registrarte, como tu nombre, correo electrónico y perfil profesional, para facilitar los procesos de reclutamiento.</p>
+            <h3 class="text-lg font-semibold text-gray-800">1. Information Collection</h3>
+            <p>We collect information you provide when registering, such as your name, email, and professional profile, to facilitate recruitment processes.</p>
 
-            <h3 class="text-lg font-semibold text-gray-800">2. Uso de la Información</h3>
-            <p>Tu información se utiliza para conectarte con oportunidades laborales, mejorar nuestros servicios y comunicarnos contigo sobre actualizaciones relevantes.</p>
+            <h3 class="text-lg font-semibold text-gray-800">2. Use of Information</h3>
+            <p>Your information is used to connect you with job opportunities, improve our services, and communicate with you about relevant updates.</p>
 
-            <h3 class="text-lg font-semibold text-gray-800">3. Protección de Datos</h3>
-            <p>Implementamos medidas de seguridad robustas para proteger tus datos contra accesos no autorizados, alteraciones o divulgaciones.</p>
+            <h3 class="text-lg font-semibold text-gray-800">3. Data Protection</h3>
+            <p>We implement robust security measures to protect your data against unauthorized access, alteration, or disclosure.</p>
 
-            <h3 class="text-lg font-semibold text-gray-800">4. Compartir Información</h3>
-            <p>No vendemos tu información personal a terceros. Solo compartimos datos relevantes con reclutadores cuando aplicas a una vacante específica.</p>
+            <h3 class="text-lg font-semibold text-gray-800">4. Sharing Information</h3>
+            <p>We do not sell your personal information to third parties. We only share relevant data with recruiters when you apply for a specific vacancy.</p>
           </div>
         </div>
       </div>

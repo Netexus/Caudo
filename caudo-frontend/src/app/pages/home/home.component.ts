@@ -29,13 +29,13 @@ import { AuthService } from '../../core/services/auth.service';
             
             <!-- Headline -->
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-              Conectando <span class="text-caudo-accent">Talento Tech</span><br>
-              con el Futuro
+              Connecting <span class="text-caudo-accent">Tech Talent</span><br>
+              with the Future
             </h1>
             
             <!-- Subtitle -->
             <p class="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-10">
-              La plataforma exclusiva para Coders que buscan su próxima gran oportunidad.
+              The exclusive platform for Coders looking for their next big opportunity.
             </p>
             
             <!-- CTA Buttons -->
@@ -45,20 +45,20 @@ import { AuthService } from '../../core/services/auth.service';
                   <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                   </svg>
-                  Ir a mi Dashboard
+                  Go to Dashboard
                 </button>
               } @else {
                 <a routerLink="/register" class="btn-primary btn-lg">
                   <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                   </svg>
-                  Buscar Vacantes
+                  Browse Vacancies
                 </a>
                 <a routerLink="/login" class="btn-outline-light btn-lg">
                   <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                   </svg>
-                  Iniciar Sesión
+                  Log In
                 </a>
               }
             </div>
@@ -78,10 +78,10 @@ import { AuthService } from '../../core/services/auth.service';
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-16">
             <h2 class="text-3xl sm:text-4xl font-bold text-caudo-primary mb-4">
-              ¿Por qué elegir Caudo?
+              Why choose Caudo?
             </h2>
             <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-              Una plataforma diseñada para conectar el mejor talento tech con las mejores oportunidades.
+              A platform designed to connect the best tech talent with the best opportunities.
             </p>
           </div>
           
@@ -93,9 +93,9 @@ import { AuthService } from '../../core/services/auth.service';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-caudo-primary mb-3">Postulación Inteligente</h3>
+              <h3 class="text-xl font-bold text-caudo-primary mb-3">Smart Application</h3>
               <p class="text-gray-600">
-                Aplica solo a lo que te interesa. Límite de 3 postulaciones activas para asegurar calidad y enfoque.
+                Apply only to what interests you. Limit of 3 active applications to ensure quality and focus.
               </p>
             </div>
             
@@ -106,9 +106,9 @@ import { AuthService } from '../../core/services/auth.service';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-caudo-primary mb-3">Empresas Verificadas</h3>
+              <h3 class="text-xl font-bold text-caudo-primary mb-3">Verified Companies</h3>
               <p class="text-gray-600">
-                Accede a vacantes de empresas tecnológicas líderes validadas por nuestro equipo.
+                Access vacancies from leading tech companies validated by our team.
               </p>
             </div>
             
@@ -119,9 +119,9 @@ import { AuthService } from '../../core/services/auth.service';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-caudo-primary mb-3">Stack Moderno</h3>
+              <h3 class="text-xl font-bold text-caudo-primary mb-3">Modern Stack</h3>
               <p class="text-gray-600">
-                Plataforma construida con las últimas tecnologías para una experiencia veloz y confiable.
+                Platform built with the latest technologies for a fast and reliable experience.
               </p>
             </div>
           </div>
@@ -132,18 +132,18 @@ import { AuthService } from '../../core/services/auth.service';
       <section class="bg-caudo-primary py-16">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 class="text-3xl font-bold text-white mb-4">
-            ¿Listo para dar el siguiente paso?
+            Ready to take the next step?
           </h2>
           <p class="text-xl text-gray-300 mb-8">
-            Únete a la comunidad de profesionales tech que ya confían en Caudo.
+            Join the community of tech professionals who already trust Caudo.
           </p>
           @if (authService.isAuthenticated()) {
             <button (click)="navigateToDashboard()" class="btn-primary btn-lg">
-              Ir a mi Dashboard
+              Go to Dashboard
             </button>
           } @else {
             <a routerLink="/register" class="btn-primary btn-lg">
-              Crear Cuenta Gratis
+              Create Free Account
             </a>
           }
         </div>
@@ -155,12 +155,12 @@ import { AuthService } from '../../core/services/auth.service';
           <div class="flex flex-col md:flex-row justify-between items-center">
             <div class="flex items-center mb-4 md:mb-0">
               <img src="images/caudo-logo.png" alt="Caudo" class="h-8 mr-3">
-              <span class="text-gray-400">© 2026 Caudo. Todos los derechos reservados.</span>
+              <span class="text-gray-400">© 2026 Caudo. All rights reserved.</span>
             </div>
             <div class="flex gap-6">
-              <a routerLink="/terms" class="text-gray-400 hover:text-caudo-accent transition-colors">Términos</a>
-              <a routerLink="/privacy" class="text-gray-400 hover:text-caudo-accent transition-colors">Privacidad</a>
-              <a routerLink="/contact" class="text-gray-400 hover:text-caudo-accent transition-colors">Contacto</a>
+              <a routerLink="/terms" class="text-gray-400 hover:text-caudo-accent transition-colors">Terms</a>
+              <a routerLink="/privacy" class="text-gray-400 hover:text-caudo-accent transition-colors">Privacy</a>
+              <a routerLink="/contact" class="text-gray-400 hover:text-caudo-accent transition-colors">Contact</a>
             </div>
           </div>
         </div>
