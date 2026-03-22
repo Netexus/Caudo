@@ -31,8 +31,8 @@ export class Vacancy {
     location: string;
 
     @Column({
-        type: 'enum',
-        enum: Modality,
+        type: 'nvarchar',
+        length: 50,
         default: Modality.REMOTE,
     })
     modality: Modality;
