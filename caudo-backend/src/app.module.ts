@@ -20,16 +20,17 @@ import { User, Vacancy, Application } from './entities';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'mssql',
-        host: configService.get<string>('DB_HOST'),
+        host: configService.get<string>('DB_HOST', 'localhost'),
         port: parseInt(configService.get<string>('DB_PORT', '1433')),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_NAME'),
+        username: configService.get<string>('DB_USERNAME', 'sa'),
+        password: configService.get<string>('DB_PASSWORD', ''),
+        database: configService.get<string>('DB_NAME', 'caudo'),
         entities: [User, Vacancy, Application],
-        synchronize: configService.get<string>('NODE_ENV') !== 'production',
+        synchronize: configService.get<string>('DB_SYNC') === 'true',
         options: {
           encrypt: true,
           trustServerCertificate: false,
+          server: configService.get<string>('DB_HOST', 'localhost'),
         },
       }),
       inject: [ConfigService],
@@ -50,5 +51,4 @@ import { User, Vacancy, Application } from './entities';
     },
   ],
 })
-export class AppModule { }
-
+export class AppModule {}
